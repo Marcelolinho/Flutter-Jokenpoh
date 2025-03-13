@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:jokenpoh/screens/game.dart';
 
@@ -28,42 +30,90 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+  var options = ['assets/icons/pedra.png', 'assets/icons/papel.png', 'assets/icons/tesoura.png'];
+
+  void handleChoice(int playerEscolha) {
+    Navigator.pushNamed(context, "/final", arguments: {
+      "playerChoice": playerEscolha,
+      "agentChoice": Random().nextInt(3)
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Colors.red,
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Column(
+              children: [
+                Image.asset('assets/icons/padrao.png', width: 200),
+                const Text(
+                  'Escolha do app (aleatório)',
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => handleChoice(0),
+                      child: Image.asset(options[0], width: 100),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () => handleChoice(1),
+                      child: Image.asset(options[1], width: 100),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () => handleChoice(2),
+                      child: Image.asset(options[2], width: 100),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Escolha do usuário',
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
